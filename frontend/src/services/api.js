@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api', // local backend
+  baseURL: 'https://volunteer-connect-oe3h.onrender.com/api', // local backend
   headers: {
     'Content-Type': 'application/json',
   },
