@@ -99,9 +99,9 @@ const Participants = () => {
           <div className="w-20 h-20 bg-blue-50 text-blue-300 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaUsers size={32} />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">No Participants Yet</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">👥 No volunteers have joined this event yet.</h3>
           <p className="text-gray-500 max-w-md mx-auto">
-            Volunteers haven't joined this event yet. Check back later once the event gains more visibility!
+            Check back later once the event gains more visibility!
           </p>
         </div>
       )}

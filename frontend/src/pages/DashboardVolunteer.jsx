@@ -3,13 +3,22 @@ import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
 import EventCard from '../components/EventCard';
 import { Link } from 'react-router-dom';
-import { FaUser, FaStar, FaCalendarCheck, FaChartPie } from 'react-icons/fa';
+import { FaUser, FaStar, FaCalendarCheck, FaChartPie, FaCheckCircle, FaHeart } from 'react-icons/fa';
 
 const DashboardVolunteer = () => {
   const { user } = useContext(AuthContext);
   const [recommendedEvents, setRecommendedEvents] = useState([]);
   const [myEvents, setMyEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const now = new Date();
+  const upcomingEvents = myEvents.filter(e => new Date(e.date) >= now).length;
+  const completedEvents = myEvents.filter(e => new Date(e.date) < now).length;
+  
+  const categoryCounts = myEvents.reduce((acc, event) => {
+    acc[event.category] = (acc[event.category] || 0) + 1;
+    return acc;
+  }, {});
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -77,7 +86,7 @@ const DashboardVolunteer = () => {
               </div>
             ) : (
               <div className="bg-white p-8 rounded-xl border border-gray-100 text-center">
-                <p className="text-gray-500">No recommendations right now. Try updating your interests!</p>
+                <p className="text-gray-500">No recommendations available.</p>
               </div>
             )}
           </section>
@@ -97,7 +106,7 @@ const DashboardVolunteer = () => {
               </div>
             ) : (
               <div className="bg-white p-8 rounded-xl border border-gray-100 text-center">
-                <p className="text-gray-500">You haven't joined any events yet.</p>
+                <p className="text-gray-500">No joined events yet.</p>
               </div>
             )}
           </section>
@@ -106,37 +115,57 @@ const DashboardVolunteer = () => {
         <div className="space-y-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-              <FaChartPie className="text-blue-500 mr-2" /> Participation Summary
+              <FaChartPie className="text-blue-500 mr-2" /> 📊 My Participation Summary
             </h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Environmental</span>
-                  <span className="font-medium text-gray-900">40%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '40%' }}></div>
-                </div>
+            <div className="space-y-3 mb-6">
+              <div className="flex justify-between items-center text-gray-700">
+                <span>Joined Events:</span>
+                <span className="font-bold text-gray-900">{myEvents.length}</span>
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Education</span>
-                  <span className="font-medium text-gray-900">35%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '35%' }}></div>
-                </div>
+              <div className="flex justify-between items-center text-gray-700">
+                <span>Upcoming Events:</span>
+                <span className="font-bold text-gray-900">{upcomingEvents}</span>
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Healthcare</span>
-                  <span className="font-medium text-gray-900">25%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-red-400 h-2 rounded-full" style={{ width: '25%' }}></div>
-                </div>
+              <div className="flex justify-between items-center text-gray-700">
+                <span>Completed Events:</span>
+                <span className="font-bold text-gray-900">{completedEvents}</span>
+              </div>
+              <div className="flex justify-between items-center text-gray-700">
+                <span>Recommended Events:</span>
+                <span className="font-bold text-gray-900">{recommendedEvents.length}</span>
               </div>
             </div>
+
+            {myEvents.length > 0 && (
+              <>
+                <h4 className="text-md font-bold text-gray-900 mb-3 border-t border-gray-100 pt-4">Category-wise</h4>
+                <div className="space-y-2">
+                  {Object.entries(categoryCounts).map(([category, count]) => (
+                    <div key={category} className="flex justify-between items-center text-sm text-gray-700">
+                      <span>{category} :</span>
+                      <span className="font-medium text-gray-900">{count}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+              <FaHeart className="text-red-500 mr-2" /> ⭐ My Interests
+            </h3>
+            {user?.interests && user.interests.length > 0 ? (
+              <ul className="space-y-2">
+                {user.interests.map(interest => (
+                  <li key={interest} className="flex items-center text-gray-700">
+                    <FaCheckCircle className="text-emerald-500 mr-2 text-sm" /> {interest}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500 text-sm">No interests added yet.</p>
+            )}
           </div>
           
           <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm text-white p-6">
