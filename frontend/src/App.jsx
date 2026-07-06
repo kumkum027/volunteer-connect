@@ -10,6 +10,7 @@ import DashboardOrg from './pages/DashboardOrg';
 import EventsList from './pages/EventsList';
 import EventDetails from './pages/EventDetails';
 import Profile from './pages/Profile';
+import Participants from './pages/Participants';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import { useContext } from 'react';
 
@@ -65,6 +66,14 @@ function App() {
                     <Profile />
                   </ProtectedRoute>
                 } 
+              />
+              <Route
+                path="/participants/:id"
+                element={
+                  <ProtectedRoute allowedRoles={["organization"]}>
+                    <Participants />
+                  </ProtectedRoute>
+                }
               />
             </Routes>
           </main>

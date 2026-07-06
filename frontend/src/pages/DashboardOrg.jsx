@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 import { FaBuilding, FaPlus, FaCalendarAlt, FaUsers } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
 const DashboardOrg = () => {
   const { user } = useContext(AuthContext);
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   // Form state
@@ -168,7 +170,10 @@ const DashboardOrg = () => {
                   </div>
                   
                   <div className="flex justify-between items-center border-t border-gray-100 pt-4">
-                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center cursor-pointer">
+                    <button 
+                      onClick={() => navigate(`/participants/${event._id}`)}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center cursor-pointer"
+                    >
                       <FaUsers className="mr-1" /> View Participants
                     </button>
                     <button onClick={() => handleDelete(event._id)} className="text-red-500 hover:text-red-700 text-sm font-medium cursor-pointer">
