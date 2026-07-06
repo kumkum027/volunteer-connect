@@ -2,16 +2,14 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const seedOrganizations = require('./utils/seedOrganizations');
+
 
 // Load env vars
 dotenv.config();
 
 // Connect to database
 
-connectDB().then(() => {
-  seedOrganizations();
-});
+connectDB();
 
 const app = express();
 
