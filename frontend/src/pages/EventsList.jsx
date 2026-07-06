@@ -37,29 +37,31 @@ const EventsList = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-4">Discover Events</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">Find community service opportunities that match your passion and skills.</p>
+      <div className="mb-12 text-center relative">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-32 bg-emerald-100 blur-3xl opacity-50 -z-10 rounded-full pointer-events-none"></div>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Discover <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Events</span></h1>
+        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">Find community service opportunities that match your passion and skills.</p>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10 flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-4 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 mb-12 flex flex-col md:flex-row gap-4 relative z-10">
         <div className="flex-grow relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaSearch className="text-gray-400" />
+          <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+            <FaSearch className="text-emerald-500 text-lg" />
           </div>
           <input 
             type="text" 
             placeholder="Search events by title or description..." 
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full pl-14 pr-6 py-4 bg-slate-50 border-transparent rounded-2xl focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none font-medium text-slate-700 placeholder-slate-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="md:w-64">
+        <div className="md:w-72">
           <select 
-            className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+            className="w-full py-4 px-6 bg-slate-50 border-transparent rounded-2xl focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none font-medium text-slate-700 cursor-pointer appearance-none"
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
+            style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 1rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em' }}
           >
             <option value="">All Categories</option>
             {categories.map(cat => (
@@ -76,9 +78,20 @@ const EventsList = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">No events found</h3>
-          <p className="text-gray-500">Try adjusting your search or filters.</p>
+        <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center justify-center">
+          <div className="bg-slate-50 p-6 rounded-full mb-6">
+            <FaSearch className="text-4xl text-slate-300" />
+          </div>
+          <h3 className="text-2xl font-extrabold text-slate-900 mb-3">No events found</h3>
+          <p className="text-slate-500 text-lg max-w-sm mx-auto">Try adjusting your search or category filters to find what you're looking for.</p>
+          {(searchTerm || filterCategory) && (
+            <button 
+              onClick={() => { setSearchTerm(''); setFilterCategory(''); }}
+              className="mt-6 text-emerald-600 font-bold hover:text-emerald-700 hover:underline transition-all cursor-pointer"
+            >
+              Clear all filters
+            </button>
+          )}
         </div>
       )}
     </div>

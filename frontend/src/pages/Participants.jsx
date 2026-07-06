@@ -42,29 +42,32 @@ const Participants = () => {
         <FaArrowLeft className="mr-2" /> Back to Dashboard
       </button>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 flex flex-col md:flex-row items-center justify-between">
-        <div className="flex items-center mb-4 md:mb-0">
-          <div className="bg-blue-100 p-4 rounded-full mr-6 text-blue-600">
-            <FaUsers className="text-4xl" />
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-3xl shadow-xl p-8 md:p-10 mb-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-0 left-20 w-32 h-32 bg-indigo-400 opacity-20 rounded-full blur-xl"></div>
+        
+        <div className="flex items-center mb-6 md:mb-0 relative z-10">
+          <div className="bg-white/20 backdrop-blur-sm p-5 rounded-2xl mr-6 border border-white/30 shadow-sm">
+            <FaUsers className="text-4xl text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Event Participants</h1>
-            <p className="text-gray-600 mt-1">Review the volunteers who joined your event</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Event Participants</h1>
+            <p className="text-blue-100 mt-2 text-lg">Review the volunteers who joined your event</p>
           </div>
         </div>
-        <div className="bg-gray-50 px-6 py-3 rounded-lg border border-gray-100 text-center">
-          <p className="text-sm text-gray-500 mb-1">Total Registered</p>
-          <p className="text-2xl font-bold text-blue-600">{participants.length}</p>
+        <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/20 text-center relative z-10 shadow-sm">
+          <p className="text-sm text-blue-100 mb-1 font-medium tracking-wide uppercase">Total Registered</p>
+          <p className="text-3xl font-extrabold text-white">{participants.length}</p>
         </div>
       </div>
 
       {participants.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {participants.map((participant, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 mr-4 shrink-0 overflow-hidden">
+            <div key={index} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="p-8">
+                <div className="flex items-center mb-6">
+                  <div className="h-16 w-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 mr-5 shrink-0 overflow-hidden shadow-inner border border-blue-100">
                     {participant.profileImage && participant.profileImage !== 'no-photo.jpg' ? (
                       <img src={participant.profileImage} alt={participant.name} className="h-full w-full object-cover" />
                     ) : (
@@ -72,22 +75,22 @@ const Participants = () => {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">{participant.name}</h3>
-                    <p className="text-sm text-gray-500 flex items-center mt-1">
-                      <FaCalendarAlt className="mr-1 text-gray-400" /> 
+                    <h3 className="text-xl font-extrabold text-slate-900">{participant.name}</h3>
+                    <p className="text-sm text-slate-500 flex items-center mt-1.5 font-medium">
+                      <FaCalendarAlt className="mr-1.5 text-slate-400" /> 
                       Joined: {new Date(participant.joinedAt).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
                 
-                <div className="space-y-3 pt-4 border-t border-gray-50">
-                  <div className="flex items-center text-gray-600">
-                    <FaEnvelope className="w-5 text-blue-400 mr-3" />
-                    <span className="truncate">{participant.email}</span>
+                <div className="space-y-4 pt-6 border-t border-slate-100">
+                  <div className="flex items-center text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <FaEnvelope className="w-5 text-blue-500 mr-3" />
+                    <span className="truncate font-medium">{participant.email}</span>
                   </div>
-                  <div className="flex items-center text-gray-600">
-                    <FaPhone className="w-5 text-blue-400 mr-3" />
-                    <span>{participant.phone || 'Not provided'}</span>
+                  <div className="flex items-center text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <FaPhone className="w-5 text-blue-500 mr-3" />
+                    <span className="font-medium">{participant.phone || 'Not provided'}</span>
                   </div>
                 </div>
               </div>
@@ -95,12 +98,12 @@ const Participants = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white p-16 rounded-2xl border border-gray-100 text-center">
-          <div className="w-20 h-20 bg-blue-50 text-blue-300 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="bg-white p-16 rounded-3xl border border-slate-100 text-center shadow-sm flex flex-col items-center justify-center">
+          <div className="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
             <FaUsers size={32} />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">👥 No volunteers have joined this event yet.</h3>
-          <p className="text-gray-500 max-w-md mx-auto">
+          <h3 className="text-2xl font-extrabold text-slate-900 mb-3">👥 No volunteers have joined this event yet.</h3>
+          <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">
             Check back later once the event gains more visibility!
           </p>
         </div>
