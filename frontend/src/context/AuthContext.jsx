@@ -26,18 +26,37 @@ export const AuthProvider = ({ children }) => {
     checkLoggedIn();
   }, []);
 
+  // const login = async (email, password) => {
+  //   try {
+  //     const res = await api.post('/auth/login', { email, password });
+  //     localStorage.setItem('token', res.data.token);
+  //     setUser(res.data.user);
+  //     toast.success('Logged in successfully');
+  //     return res.data.user;
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || 'Login failed');
+  //     throw error;
+  //   }
+  // };
   const login = async (email, password) => {
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      localStorage.setItem('token', res.data.token);
-      setUser(res.data.user);
-      toast.success('Logged in successfully');
-      return res.data.user;
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
-      throw error;
-    }
-  };
+  try {
+    const res = await api.post('/auth/login', { email, password });
+
+    localStorage.setItem('token', res.data.token);
+
+    // Fetch complete profile after login
+    const profileRes = await api.get('/volunteer/profile');
+
+    setUser(profileRes.data.data);
+
+    toast.success('Logged in successfully');
+
+    return profileRes.data.data;
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Login failed');
+    throw error;
+  }
+};
 
   const registerVolunteer = async (userData) => {
     try {

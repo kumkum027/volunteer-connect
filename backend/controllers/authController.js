@@ -115,11 +115,14 @@ const sendTokenResponse = (user, statusCode, res) => {
     success: true,
     token,
     user: {
-      id: user._id,
-      name: user.name,
-      organizationName: user.organizationName,
-      email: user.email,
-      role: user.role
-    }
+  id: user._id,
+  name: user.name,
+  organizationName: user.organizationName,
+  email: user.email,
+  role: user.role,
+  phone: user.phone,
+  interests: user.interests,
+  profileImage: user.profileImage
+}
   });
 };
