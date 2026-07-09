@@ -28,17 +28,41 @@ const DashboardOrg = () => {
     fetchMyEvents();
   }, []);
 
-  const fetchMyEvents = async () => {
-    try {
-      const res = await api.get('/events');
-      const myEvents = res.data.data.filter(e => e.organizationId === user.id);
-      setEvents(myEvents);
-    } catch (error) {
-      console.error('Error fetching org events:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const fetchMyEvents = async () => {
+//     try {
+//       const res = await api.get('/events');
+//       console.log("USER:", user);
+//     console.log("EVENTS:", res.data.data);
+//       // const myEvents = res.data.data.filter(e => e.organizationId === user.id);
+//       const myEvents = res.data.data.filter(
+//   e => e.organizationId?._id === user.id
+// );
+//       setEvents(myEvents);
+//     } catch (error) {
+//       console.error('Error fetching org events:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+const fetchMyEvents = async () => {
+  try {
+    const res = await api.get('/events');
+
+    console.log("USER _ID:", user._id);
+    console.log("EVENT ORGANIZATION ID:", res.data.data[0].organizationId);
+
+    const myEvents = res.data.data.filter(
+  e => e.organizationId?.toString() === user._id
+);
+
+    setEvents(myEvents);
+  } catch (error) {
+    console.error("Error fetching org events:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
